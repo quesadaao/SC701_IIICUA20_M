@@ -1,0 +1,37 @@
+﻿@model List<string>
+
+@{
+    ViewData["Title"] = "Index";
+    string nombre = "Chuche + Montero";
+    //List<string> paises = new List<string>() {"Ghana","Japon","Costa Rica" };
+}
+
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+
+<h1>Index</h1>
+
+<p>@nombre</p>
+
+<p>@env.EnvironmentName</p>
+
+<environment include="Development">
+    <p>"Estoy Desarrollo"</p>
+
+</environment>
+
+<environment include="Production">
+    <p>"Estoy en Produccion"</p>
+
+</environment>
+
+<ul>
+    @*@foreach (var pais in paises) {
+            <li>@pais</li>
+        }*@
+
+    @foreach (var pais in Model)
+    {
+        <li>@pais</li>
+    }
+</ul>
+
