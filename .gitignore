@@ -1,3 +1,16 @@
 SC701-P1/Solution/.vs/
 SC701-P1/Solution/Solution.UI/bin/
 SC701-P1/Solution/Solution.UI/obj/
+SC701-P1/Solution_BackEnd/.vs/
+SC701-P1/Solution_BackEnd/Solution.API/bin/
+SC701-P1/Solution_BackEnd/Solution.API/obj/
+SC701-P1/Solution_BackEnd/Solution.BS/bin/
+SC701-P1/Solution_BackEnd/Solution.BS/obj/
+SC701-P1/Solution_BackEnd/Solution.DAL.EF/bin/
+SC701-P1/Solution_BackEnd/Solution.DAL.EF/obj/
+SC701-P1/Solution_BackEnd/Solution.DAL.Repository/bin/
+SC701-P1/Solution_BackEnd/Solution.DAL.Repository/obj/
+SC701-P1/Solution_BackEnd/Solution.DAL/bin/
+SC701-P1/Solution_BackEnd/Solution.DAL/obj/
+SC701-P1/Solution_BackEnd/Solution.DO/bin/
+SC701-P1/Solution_BackEnd/Solution.DO/obj/
