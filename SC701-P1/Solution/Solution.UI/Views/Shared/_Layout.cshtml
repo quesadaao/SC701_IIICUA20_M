@@ -32,6 +32,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="PaisWEF" asp-action="Index">PaisWEF</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PaisCAPI" asp-action="Index">PaisCAPI</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
@@ -47,9 +50,9 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            @*@await Component.InvokeAsync("Paises")
-            <vc:paises></vc:paises>*@
-            
+            @*@await Component.InvokeAsync("Paises")*@
+            <vc:Paises></vc:Paises>
+
             &copy; 2020 - Solution.UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

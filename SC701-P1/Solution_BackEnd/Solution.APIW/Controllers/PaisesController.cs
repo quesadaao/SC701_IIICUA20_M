@@ -4,34 +4,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Solution.DAL.EF;
-using data = Solution.DO.Objects;
+using Microsoft.EntityFrameworkCore;
+using Solution.APIW.Models;
 
-namespace Solution.API.Controllers
+namespace Solution.APIW.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaisController : Controller
+    public class PaisesController : ControllerBase
     {
-        private readonly SolutionDBContext _context;
+        private readonly SC701_IIICUA_P1Context _context;
 
-        public PaisController(SolutionDBContext context)
+        public PaisesController(SC701_IIICUA_P1Context context)
         {
             _context = context;
         }
 
-        // GET: api/Pais
+        // GET: api/Paises
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<data.Pais>>> GetPais()
+        public async Task<ActionResult<IEnumerable<Paise>>> GetPaises()
         {
-            return new Solution.BS.Pais(_context).GetAll().ToList();
+            return await _context.Paises.ToListAsync();
         }
 
-        // GET: api/Pais/5
+        // GET: api/Paises/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<data.Pais>> GetPais(int id)
+        public async Task<ActionResult<Paise>> GetPaise(int id)
         {
-            var paise = new Solution.BS.Pais(_context).GetOneById(id);
+            var paise = await _context.Paises.FindAsync(id);
 
             if (paise == null)
             {
@@ -45,18 +45,20 @@ namespace Solution.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPais(int id, data.Pais paise)
+        public async Task<IActionResult> PutPaise(int id, Paise paise)
         {
             if (id != paise.Id)
             {
                 return BadRequest();
             }
-           
+
+            _context.Entry(paise).State = EntityState.Modified;
+
             try
             {
-                new Solution.BS.Pais(_context).Update(paise);
+                await _context.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!PaiseExists(id))
                 {
@@ -75,31 +77,33 @@ namespace Solution.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<data.Pais>> PostPaise(data.Pais paise)
+        public async Task<ActionResult<Paise>> PostPaise(Paise paise)
         {
-            new Solution.BS.Pais(_context).Insert(paise);
+            _context.Paises.Add(paise);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPais", new { id = paise.Id }, paise);
+            return CreatedAtAction("GetPaise", new { id = paise.Id }, paise);
         }
 
         // DELETE: api/Paises/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<data.Pais>> DeletePaise(int id)
+        public async Task<ActionResult<Paise>> DeletePaise(int id)
         {
-            var paise = new Solution.BS.Pais(_context).GetOneById(id);
+            var paise = await _context.Paises.FindAsync(id);
             if (paise == null)
             {
                 return NotFound();
             }
 
-            new Solution.BS.Pais(_context).Delete(paise);
+            _context.Paises.Remove(paise);
+            await _context.SaveChangesAsync();
 
             return paise;
         }
 
         private bool PaiseExists(int id)
         {
-            return (new Solution.BS.Pais(_context).GetOneById(id) != null);
+            return _context.Paises.Any(e => e.Id == id);
         }
     }
 }

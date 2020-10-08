@@ -31,6 +31,7 @@ namespace Solution.BS
 
         public void Insert(data.Pais t)
         {
+            t.Id = null;
             new Solution.DAL.Pais(_solutionDBContext).Insert(t);
         }
 
