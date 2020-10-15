@@ -33,5 +33,24 @@ namespace Solution.UI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //public IActionResult ExportData() 
+        //{
+        //    FileStream fs = System.IO.File.Open(@"D:\Sample.xlsx", FileMode.Open);
+        //    byte[] bytes;
+        //    using (MemoryStream tempMs = new MemoryStream())
+        //    {
+        //        fs.CopyTo(tempMs);
+        //        bytes = tempMs.ToArray();
+        //        fs.Close();
+        //        fs.Dispose();
+        //    }
+
+        //    MemoryStream ms = new MemoryStream();
+        //    ms.Write(bytes, 0, bytes.Length);
+
+        //    return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Data.xlsx");
+        //}
+
     }
 }
