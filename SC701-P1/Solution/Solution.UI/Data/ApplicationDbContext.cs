@@ -15,5 +15,7 @@ namespace Solution.UI.Data
         }
 
          public DbSet<Pais> Paises { get; set; }
+
+         public DbSet<Solution.UI.Models.Universidad> Universidad { get; set; }
     }
 }

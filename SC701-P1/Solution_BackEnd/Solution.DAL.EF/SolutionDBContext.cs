@@ -15,5 +15,6 @@ namespace Solution.DAL.EF
         }
 
         public DbSet<Pais> Paises { get; set; }
+        public DbSet<Universidad> Universidad { get; set; }
     }
 }
