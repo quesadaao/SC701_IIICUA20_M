@@ -1,0 +1,8 @@
+
+Scaffold-DbContext "Server=DESKTOP-FO3F74S\SQLEXPRESS;Database=SocialGoal;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Scaffold-DbContext "Server=localhost;Database=MyDatabase;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataModel -FORCE
+
+Scaffold-DbContext "Server=myserver\mydb;Database=mydb;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -t <table> -f
+
+Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=DatabaseName;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DirectoryNameOfYourModels -Tables employee -f
