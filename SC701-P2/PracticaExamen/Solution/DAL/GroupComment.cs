@@ -4,16 +4,17 @@ using DO.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using data = DO.Objects;
 
 namespace DAL
 {
     public class GroupComment : ICRUD<data.GroupComment>
     {
-        private Repository<data.GroupComment> _repo = null;
+        private RepositoryGroupComment _repo = null;
         public GroupComment(SolutionDBContext solutionDBContext)
         {
-            _repo = new Repository<data.GroupComment>(solutionDBContext);
+            _repo = new RepositoryGroupComment(solutionDBContext);
         }
         public void Delete(data.GroupComment t)
         {
@@ -29,6 +30,15 @@ namespace DAL
         public data.GroupComment GetOneById(int id)
         {
             return _repo.GetOneById(id);
+        }
+        public async Task<IEnumerable<data.GroupComment>> GetAllInclude()
+        {
+            return await _repo.GetAllWithGroupCommentsAsync();
+        }
+
+        public async Task<data.GroupComment> GetOneByIdInclude(int id)
+        {
+            return await _repo.GetWithGroupCommentByIdAsync(id);
         }
 
         public void Insert(data.GroupComment t)

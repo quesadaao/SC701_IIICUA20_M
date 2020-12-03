@@ -4,16 +4,17 @@ using DO.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using data = DO.Objects;
 
 namespace DAL
 {
     public class GroupUpdateSupport : ICRUD<data.GroupUpdateSupport>
     {
-        private Repository<data.GroupUpdateSupport> _repo = null;
+        private RepositoryGroupUpdateSupport _repo = null;
         public GroupUpdateSupport(SolutionDBContext solutionDBContext)
         {
-            _repo = new Repository<data.GroupUpdateSupport>(solutionDBContext);
+            _repo = new RepositoryGroupUpdateSupport(solutionDBContext);
         }
         public void Delete(data.GroupUpdateSupport t)
         {
@@ -23,12 +24,22 @@ namespace DAL
 
         public IEnumerable<data.GroupUpdateSupport> GetAll()
         {
-            return _repo.GetAll();
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<data.GroupUpdateSupport>> GetAllInclude()
+        {
+            return await _repo.GetAllWithAsync();
         }
 
         public data.GroupUpdateSupport GetOneById(int id)
         {
-            return _repo.GetOneById(id);
+            throw new NotImplementedException();
+        }
+
+        public async Task<data.GroupUpdateSupport> GetOneByIdInclude(int id)
+        {
+            return await _repo.GetByIdAsync(id);
         }
 
         public void Insert(data.GroupUpdateSupport t)

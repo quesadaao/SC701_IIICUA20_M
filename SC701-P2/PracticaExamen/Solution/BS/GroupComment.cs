@@ -3,6 +3,7 @@ using DO.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using data = DO.Objects;
 
 namespace BS
@@ -27,6 +28,15 @@ namespace BS
         public data.GroupComment GetOneById(int id)
         {
             return new DAL.GroupComment(_repo).GetOneById(id);
+        }
+        public async Task<IEnumerable<data.GroupComment>> GetAllInclude()
+        {
+            return await new DAL.GroupComment(_repo).GetAllInclude();
+        }
+
+        public async Task<data.GroupComment> GetOneByIdInclude(int id)
+        {
+            return await new DAL.GroupComment(_repo).GetOneByIdInclude(id);
         }
 
         public void Insert(data.GroupComment t)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DAL.EF;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,38 +15,40 @@ namespace API.Controllers
     public class GroupCommentController : ControllerBase
     {
         private readonly SolutionDBContext _context;
+        private readonly IMapper _mapper;
 
-        public GroupCommentController(SolutionDBContext context)
+        public GroupCommentController(SolutionDBContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         // GET: api/GroupComments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<data.GroupComment>>> GetGroupComments()
+        public async Task<ActionResult<IEnumerable<Models.GroupComment>>> GetGroupComments()
         {
-            return new BS.GroupComment(_context).GetAll().ToList();
+            var aux = await new BS.GroupComment(_context).GetAllInclude();
+            return _mapper.Map<IEnumerable<data.GroupComment>, IEnumerable<Models.GroupComment>>(aux).ToList();
         }
 
         // GET: api/GroupComments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<data.GroupComment>> GetGroupComment(int id)
+        public async Task<ActionResult<Models.GroupComment>> GetGroupComment(int id)
         {
-            var groupComment = new BS.GroupComment(_context).GetOneById(id);
-
-            if (groupComment == null)
+            var aux = await new BS.GroupComment(_context).GetOneByIdInclude(id);
+            var result = _mapper.Map<data.GroupComment, Models.GroupComment>(aux);
+            if (result == null)
             {
                 return NotFound();
             }
-
-            return groupComment;
+            return result;
         }
 
         // PUT: api/GroupComments/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroupComment(int id, data.GroupComment groupComment)
+        public async Task<IActionResult> PutGroupComment(int id, Models.GroupComment groupComment)
         {
             if (id != groupComment.GroupCommentId)
             {
@@ -54,7 +57,8 @@ namespace API.Controllers
 
             try
             {
-                new BS.GroupComment(_context).Update(groupComment);
+                var result = _mapper.Map<Models.GroupComment, data.GroupComment>(groupComment);
+                new BS.GroupComment(_context).Update(result);
             }
             catch (Exception ee)
             {
@@ -75,25 +79,28 @@ namespace API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<data.GroupComment>> PostGroupComment(data.GroupComment groupComment)
+        public async Task<ActionResult<Models.GroupComment>> PostGroupComment(Models.GroupComment groupComment)
         {
-            new BS.GroupComment(_context).Insert(groupComment);
+            var result = _mapper.Map<Models.GroupComment, data.GroupComment>(groupComment);
+            new BS.GroupComment(_context).Insert(result);
 
             return CreatedAtAction("GetGroupComment", new { id = groupComment.GroupCommentId }, groupComment);
         }
 
         // DELETE: api/GroupComments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<data.GroupComment>> DeleteGroupComment(int id)
+        public async Task<ActionResult<Models.GroupComment>> DeleteGroupComment(int id)
         {
             var groupComment = new BS.GroupComment(_context).GetOneById(id);
+            var result = _mapper.Map<data.GroupComment, Models.GroupComment>(groupComment);
+
             if (groupComment == null)
             {
                 return NotFound();
             }
             new BS.GroupComment(_context).Delete(groupComment);
 
-            return groupComment;
+            return result;
         }
 
         private bool GroupCommentExists(int id)

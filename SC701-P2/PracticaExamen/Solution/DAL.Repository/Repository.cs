@@ -12,11 +12,16 @@ namespace DAL.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly SolutionDBContext dBContext;
+        protected readonly SolutionDBContext dBContext;
 
         public Repository(SolutionDBContext context)
         {
             dBContext = context;
+        }
+
+        public void AddRange(IEnumerable<T> entities)
+        {
+            dBContext.Set<T>().AddRange(entities);
         }
 
         public IQueryable<T> AsQueryble()
@@ -67,6 +72,11 @@ namespace DAL.Repository
             }
         }
 
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            dBContext.Set<T>().RemoveRange(entities);
+        }
+
         public IEnumerable<T> Search(Expression<Func<T, bool>> predicado)
         {
             return dBContext.Set<T>().Where(predicado);
@@ -80,5 +90,6 @@ namespace DAL.Repository
             }
             dBContext.Entry<T>(entity).State = EntityState.Modified;
         }
+
     }
 }
