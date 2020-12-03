@@ -28,7 +28,7 @@ namespace DAL.Repository
         {
             return await SolutionDBContext.GroupComments.
                 Include(a => a.GroupUpdate).
-                SingleOrDefaultAsync(z => z.GroupUpdateId == id);
+                SingleOrDefaultAsync(z => z.GroupCommentId == id);
         }
         //Metodo para inicializar el contexto y poderlo utilizar en los metodos
         private SolutionDBContext SolutionDBContext

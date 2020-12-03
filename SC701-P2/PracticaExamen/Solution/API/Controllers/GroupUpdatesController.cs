@@ -25,30 +25,33 @@ namespace API.Controllers
 
         // GET: api/GroupUpdates
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<data.GroupUpdate>>> GetGroupUpdates()
+        public async Task<ActionResult<IEnumerable<Models.GroupUpdate>>> GetGroupUpdates()
         {
-            return new BS.GroupUpdate(_context).GetAll().ToList();
+            var result = new BS.GroupUpdate(_context).GetAll().ToList();
+            var aux = _mapper.Map<IEnumerable<data.GroupUpdate>, IEnumerable<Models.GroupUpdate>>(result);
+            return aux.ToList();
         }
 
         // GET: api/GroupUpdates/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<data.GroupUpdate>> GetGroupUpdate(int id)
+        public async Task<ActionResult<Models.GroupUpdate>> GetGroupUpdate(int id)
         {
             var groupUpdate = new BS.GroupUpdate(_context).GetOneById(id);
+            var aux = _mapper.Map<data.GroupUpdate, Models.GroupUpdate>(groupUpdate);
 
-            if (groupUpdate == null)
+            if (aux == null)
             {
                 return NotFound();
             }
 
-            return groupUpdate;
+            return aux;
         }
 
         // PUT: api/GroupUpdates/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroupUpdate(int id, data.GroupUpdate groupUpdate)
+        public async Task<IActionResult> PutGroupUpdate(int id, Models.GroupUpdate groupUpdate)
         {
             if (id != groupUpdate.GroupUpdateId)
             {
@@ -57,7 +60,8 @@ namespace API.Controllers
 
             try
             {
-                new BS.GroupUpdate(_context).Update(groupUpdate);
+                var aux = _mapper.Map<Models.GroupUpdate, data.GroupUpdate>(groupUpdate);
+                new BS.GroupUpdate(_context).Update(aux);
             }
             catch (Exception ee)
             {
@@ -78,18 +82,20 @@ namespace API.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<data.GroupUpdate>> PostGroupUpdate(data.GroupUpdate groupUpdate)
+        public async Task<ActionResult<Models.GroupUpdate>> PostGroupUpdate(Models.GroupUpdate groupUpdate)
         {
-            new BS.GroupUpdate(_context).Insert(groupUpdate);
+            var aux = _mapper.Map<Models.GroupUpdate, data.GroupUpdate>(groupUpdate);
+            new BS.GroupUpdate(_context).Insert(aux);
 
             return CreatedAtAction("GetGroupUpdate", new { id = groupUpdate.GroupUpdateId }, groupUpdate);
         }
 
         // DELETE: api/GroupUpdates/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<data.GroupUpdate>> DeleteGroupUpdate(int id)
+        public async Task<ActionResult<Models.GroupUpdate>> DeleteGroupUpdate(int id)
         {
             var groupUpdate = new BS.GroupUpdate(_context).GetOneById(id);
+            var aux = _mapper.Map<data.GroupUpdate, Models.GroupUpdate>(groupUpdate);
             if (groupUpdate == null)
             {
                 return NotFound();
@@ -97,7 +103,7 @@ namespace API.Controllers
 
             new BS.GroupUpdate(_context).Delete(groupUpdate);
 
-            return groupUpdate;
+            return aux;
         }
 
         private bool GroupUpdateExists(int id)
